@@ -97,7 +97,7 @@ const update = async () => {
     for (const h of hss) {
       // visual indicator
       n += 1;
-      chrome.action.setBadgeText({text: (n / hss.length * 100).toFixed(0) + '%'});
+      chrome.browserAction.setBadgeText({text: (n / hss.length * 100).toFixed(0) + '%'});
 
       // find a free id
       let id;
@@ -161,7 +161,7 @@ const update = async () => {
   Error: ` + e.message);
       }
     }
-    chrome.action.setBadgeText({text: ''});
+    chrome.browserAction.setBadgeText({text: ''});
     // get existing tabs
     const options = {
       url: '*://*/*'
@@ -221,13 +221,13 @@ const update = async () => {
     // do we have a manual pause
     if (rules.filter(r => r.id === 999).length) {
       const icon = () => {
-        chrome.action.setIcon({
+        chrome.browserAction.setIcon({
           path: {
             '16': '/data/icons/paused/16.png',
             '32': '/data/icons/paused/32.png'
           }
         });
-        chrome.action.setTitle({
+        chrome.browserAction.setTitle({
           title: translate('bg_msg_27')
         });
       };
@@ -250,7 +250,7 @@ const update = async () => {
       }
     }
     else {
-      chrome.action.setTitle({
+      chrome.browserAction.setTitle({
         title: chrome.runtime.getManifest().name + `
 
     Number of active filters: ` + regExps.length

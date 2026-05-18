@@ -1,0 +1,7 @@
+{
+  "name": "com.haruharu.sessionblock",
+  "description": "Session Block native messaging host",
+  "path": "/usr/local/bin/session_block_host",
+  "type": "stdio",
+  "allowed_extensions": ["{54e2eb33-18eb-46ad-a4e4-1329c29f6e17}"]
+}

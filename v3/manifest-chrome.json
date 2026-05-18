@@ -1,18 +1,9 @@
 {
   "name": "Block Site",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "manifest_version": 3,
   "background": {
-    "service_worker": "worker.js",
-    "scripts": [
-      "helper.js",
-      "blocker.js",
-      "schedule.js",
-      "contextmenu.js",
-      "idle.js",
-      "managed.js",
-      "worker.js"
-    ]
+    "service_worker": "worker.js"
   },
   "description": "__MSG_app_description__",
   "default_locale": "en",
@@ -57,16 +48,8 @@
     ],
     "matches": ["*://*/*"]
   }],
+  "incognito": "split",
   "commands": {
     "_execute_action": {}
-  },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{54e2eb33-18eb-46ad-a4e4-1329c29f6e17}",
-      "strict_min_version": "128.0",
-      "data_collection_permissions": {
-        "required": ["none"]
-      }
-    }
   }
 }

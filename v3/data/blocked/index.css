@@ -1,53 +1,33 @@
 html {
-  --bg: #e1e1e1;
-  --input-bg: #fff;
-  --fg: #4e4e4e;
-  --input-fg: #4e4e4e;
-  --a-fg: #006cc3;
-
   height: 100%;
-  color-scheme: light;
-}
-html.dark {
-  --bg: #222837;
-  --input-bg: #363c4b;
-  --fg: #c7c7c7;
-  --input-fg: #d0d0d0;
-  --a-fg: #90bbde;
-
-  color-scheme: darl;
+  color-scheme: dark;
 }
 
 body {
   display: flex;
   flex-direction: column;
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
   font-size: 13px;
-  color: var(--fg);
-  background: var(--bg) url('images/blocked.svg') center center no-repeat;
-  background-size: min(80vw, 50vh);
+  color: #ffffff;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background-attachment: fixed;
   height: 100%;
-}
-
-html.dark body {
-  background-blend-mode: luminosity;
-}
-
-@media screen and (max-height: 400px) {
-  html.complete body {
-    background-image: none !important;
-  }
 }
 
 header h1 {
   text-align: center;
-  font-weight: normal;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  color: #e0e0ff;
 }
 header > div {
   display: grid;
   grid-template-columns: min-content 1fr;
   grid-gap: 10px 30px;
+  opacity: 0.55;
+  font-size: 11px;
 }
 header > div > span:nth-child(odd) {
   white-space: nowrap;
@@ -57,6 +37,7 @@ footer,
 p {
   padding: 10px;
 }
+
 #rate::after,
 #options::before {
   content: '•';
@@ -79,6 +60,8 @@ footer > div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  opacity: 0.5;
+  font-size: 11px;
 }
 
 @media screen and (max-width: 600px) {
@@ -91,12 +74,17 @@ input[type=text],
 input[type=password] {
   outline: none;
   min-width: 150px;
-  color: var(--input-fg);
-  background-color: var(--input-bg);
-  border: none;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
   width: 50%;
   box-sizing: border-box;
   padding: 10px;
+}
+input[type=text]::placeholder,
+input[type=password]::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 footer input[type=password] {
@@ -106,7 +94,10 @@ footer input[type=password] {
 
 a {
   text-decoration: none;
-  color: var(--a-fg);
+  color: rgba(255, 255, 255, 0.5);
+}
+a:hover {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 #url {
@@ -122,7 +113,7 @@ a {
 #sub-domain,
 #pathname,
 #search {
-  opacity: 0.7;
+  opacity: 0.6;
 }
 #search,
 #pathname {
@@ -130,25 +121,28 @@ a {
   overflow: hidden;
   white-space: nowrap;
 }
+
 #switch {
   position: absolute;
   top: 0;
   right: 0;
-  background: url('images/button_on.svg') no-repeat center center;
+  background: url('images/button_off.svg') no-repeat center center;
   background-size: 32px;
   width: 64px;
   height: 48px;
   cursor: pointer;
   border: none;
   outline: none;
+  opacity: 0.6;
 }
-html.dark #switch {
-  background-image: url('images/button_off.svg');
+#switch:hover {
+  opacity: 1;
 }
 
 #message {
   white-space: pre;
   overflow: auto;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 [hbox] {

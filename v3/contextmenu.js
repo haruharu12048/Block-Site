@@ -12,7 +12,7 @@ const buildContext = () => chrome.storage.local.get({
   chrome.contextMenus.create({
     title: translate('bg_msg_5'),
     id: 'pause',
-    contexts: ['action'],
+    contexts: ['browser_action'],
     visible: prefs['contextmenu-pause']
   }, () => chrome.runtime.lastError);
 
@@ -46,7 +46,7 @@ const buildContext = () => chrome.storage.local.get({
     chrome.contextMenus.create({
       title: period === -1 ? translate('options_manual_pause') : read(period),
       id: period === -1 ? 'pause-NaN' : 'pause-' + period,
-      contexts: ['action'],
+      contexts: ['browser_action'],
       parentId: 'pause'
     }, () => chrome.runtime.lastError);
   }
@@ -54,14 +54,14 @@ const buildContext = () => chrome.storage.local.get({
   chrome.contextMenus.create({
     title: translate('bg_msg_6'),
     id: 'resume',
-    contexts: ['action'],
+    contexts: ['browser_action'],
     visible: prefs['contextmenu-resume']
   }, () => chrome.runtime.lastError);
   if (isFF) {
     chrome.contextMenus.create({
       title: translate('bg_msg_22'),
       id: 'options',
-      contexts: ['action']
+      contexts: ['browser_action']
     }, () => chrome.runtime.lastError);
   }
   chrome.contextMenus.create({
@@ -121,13 +121,13 @@ const resume = () => {
   chrome.declarativeNetRequest.updateDynamicRules({
     removeRuleIds: [999]
   });
-  chrome.action.setIcon({
+  chrome.browserAction.setIcon({
     path: {
       '16': '/data/icons/16.png',
       '32': '/data/icons/32.png'
     }
   });
-  chrome.action.setTitle({
+  chrome.browserAction.setTitle({
     title: translate('bg_msg_28')
   });
 };
@@ -170,13 +170,13 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
             condition
           }]
         });
-        chrome.action.setIcon({
+        chrome.browserAction.setIcon({
           path: {
             '16': '/data/icons/paused/16.png',
             '32': '/data/icons/paused/32.png'
           }
         });
-        chrome.action.setTitle({
+        chrome.browserAction.setTitle({
           title: translate('bg_msg_27')
         });
       }

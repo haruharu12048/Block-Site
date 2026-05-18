@@ -169,7 +169,7 @@ const userAction = async (tabId, href, frameId) => {
     next();
   }
 };
-chrome.action.onClicked.addListener(tab => {
+chrome.browserAction.onClicked.addListener(tab => {
   userAction(tab.id, tab.url, 0);
 });
 
@@ -315,3 +315,42 @@ chrome.alarms.onAlarm.addListener(alarm => {
     setUninstallURL(page + '?rd=feedback&name=' + encodeURIComponent(name) + '&version=' + version);
   }
 }
+
+// Stay in Session 連携 — native messaging
+function connectNativeHost() {
+  const port = chrome.runtime.connectNative('com.haruharu.sessionblock');
+  port.onMessage.addListener(async (message) => {
+    if (message.action === 'start') {
+      await chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds: [999] });
+      await chrome.storage.local.set({ 'pause-until': '' });
+    } else if (message.action === 'stop' || message.action === 'break') {
+      await chrome.declarativeNetRequest.updateDynamicRules({
+        removeRuleIds: [999],
+        addRules: [{
+          id: 999,
+          priority: 5,
+          action: { type: 'allow' },
+          condition: { regexFilter: '.*', resourceTypes: ['main_frame', 'sub_frame'] }
+        }]
+      });
+      await chrome.storage.local.set({ 'pause-until': 'no-resume' });
+      if (message.action === 'break') {
+        const { blocked = [] } = await chrome.storage.local.get({ blocked: [] });
+        for (const host of blocked) {
+          const url = host.startsWith('http') ? host : 'https://' + host.replace(/^\*?\.?/, '');
+          chrome.tabs.create({ url });
+        }
+      }
+    }
+    const tabs = await chrome.tabs.query({ url: '*://*/*' });
+    for (const tab of tabs) {
+      chrome.tabs.reload(tab.id);
+    }
+  });
+  port.onDisconnect.addListener(() => {
+    chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds: [999] });
+    chrome.storage.local.set({ 'pause-until': '' });
+    setTimeout(connectNativeHost, 30000);
+  });
+}
+connectNativeHost();
